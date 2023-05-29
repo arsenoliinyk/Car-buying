@@ -1,1 +1,2 @@
 # Car-buying
+Program that returns a list of car ids that the buyer can buy, given a fixed budget. The buyer wants to buy as many cars as fit the budget. It is required to buy exactly 3 pickup trucks, exactly 2 vans, and at least 1 passenger car.

@@ -1,7 +1,10 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Buyer {
 
@@ -13,19 +16,24 @@ public class Buyer {
         this.cash = cash;
     }
 
-    public ArrayList<Integer> buyListOfCars(Buyer buyer, List<Car> carList) {
-        ArrayList<Integer> boughtCarIds = new ArrayList<>();
+    public ArrayList<Integer> buyListOfCars(List<Car> carList) {
+
         List<Car> sortedCarsList = Shop.sortCarsInAscendingOrder(carList);
-        return buyCheapest(buyer, sortedCarsList, boughtCarIds);
+        return buyCheapest(sortedCarsList);
+
     }
 
-    private ArrayList<Integer> buyCheapest(Buyer buyer, List<Car> carList, ArrayList<Integer> boughtCarIds) {
+    private ArrayList<Integer> buyCheapest(List<Car> carList) {
 
-        Shop.buyCheapestCarsWithExactType(buyer, carList, boughtCarIds, "TRUCK");
-        Shop.buyCheapestCarsWithExactType(buyer, carList, boughtCarIds, "VAN");
-        Shop.buyCheapestCarsWithExactType(buyer, carList, boughtCarIds, "PASS");
+        ArrayList<Integer> boughtTrucksIds = Shop.buyCheapestCarsWithExactType(this, carList,"TRUCK");
+        ArrayList<Integer> boughtVansIds = Shop.buyCheapestCarsWithExactType(this, carList,"VAN");
+        ArrayList<Integer> boughtPassIds = Shop.buyCheapestCarsWithExactType(this, carList,"PASS");
 
-        return boughtCarIds;
+        return Stream.of(boughtTrucksIds, boughtVansIds, boughtPassIds)
+                .flatMap(Collection::stream)
+                .collect(Collectors
+                        .toCollection(ArrayList::new));
+
     }
 
     public int getCash() {

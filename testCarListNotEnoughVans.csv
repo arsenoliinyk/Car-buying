@@ -1,0 +1,8 @@
+car_id,car_make,car_type,car_price
+11,honda,PASS,3400
+1,ford,TRUCK,4000
+9,mazda,PASS,5100
+18,ford,TRUCK,7800
+17,toyota,TRUCK,7700
+2,nissan,PASS,3500
+5,nissan,TRUCK,3100

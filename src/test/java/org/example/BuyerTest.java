@@ -1,5 +1,6 @@
 package org.example;
 
+
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -7,99 +8,140 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.example.Buyer.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BuyerTest {
+/**
+ * Unit test for simple App.
+ */
+public class AppTest{
 
-    @Test
-    void testBuyingProcess() throws IOException {
-        //Arrange
-        List<Car> carList = CsvParser.loadCsvData(Car.getFilePath(), new Car());
+   @Test
+    public void testApp() throws IOException {
+       //Arrange
+       String filepath = "testCarList.csv";
+       List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+       Buyer buyer = new Buyer(30000);
 
-        //Act
-        ArrayList<Integer> actualResult = Buyer.buyingProcess(carList);
-        ArrayList<Integer> expectedResult = new ArrayList<>(Arrays.asList(5, 1, 17, 15, 3, 11, 2));
+       //Act
+       ArrayList<Integer> actualResult = buyer.buyListOfCars(buyer, carList);
+       ArrayList<Integer> expectedResult = new ArrayList<>(Arrays.asList(5, 1, 17, 15, 3, 11, 2));
 
-        //Assert
-        assertEquals(expectedResult, actualResult);
-    }
+       //Assert
+       assertEquals(expectedResult, actualResult);
 
-    @Test
-    public void testSortCarsInAscendingOrder() {
-        //Arrange
-        List<Car> carList = new ArrayList<Car>();
-        Car car1 = new Car(7,"nissan","VAN",6100);
-        Car car2 = new Car(11,"honda","PASS",3400);
-        Car car3 = new Car(1,"ford","TRUCK",4000);
-        Car car4 = new Car(9,"mazda","PASS",5100);
-        carList.add(car1);
-        carList.add(car2);
-        carList.add(car3);
-        carList.add(car4);
+   }
 
-        //Act
-        List<Car> actualResult = Buyer.sortCarsInAscendingOrder(carList);
-        List<Car> expectedResult =  new ArrayList<Car>();
-        expectedResult.add(car2);
-        expectedResult.add(car3);
-        expectedResult.add(car4);
-        expectedResult.add(car1);
+   @Test
+   public void testAppNotEnoughTrucksOnSale() throws IOException {
+      //Arrange
+      String filepath = "testCarListNotEnoughTrucks.csv";
+      List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+      Buyer buyer = new Buyer(30000);
+      RuntimeException expectedException = assertThrows(RuntimeException.class, () -> {
+         buyer.buyListOfCars(buyer, carList);
+      });
 
-        //Assert
-        assertEquals(expectedResult, actualResult);
-    }
+      //Act
+      String actualResult = expectedException.getMessage();
+      String expectedResult = "There were not enough TRUCK cars on sale. Required 3 TRUCK, but there are only 2 for sale.";
 
-    @Test
-    public void testMatchingTruckWithNeededNumberToBuy(){
-        //Arrange
-        int trucksToBuy = 3;
+      //Assert
+      assertTrue(actualResult.contains(expectedResult));
 
-        //Act
-        int actualResult = matchingCarTypeWithNeededNumberToBuy("TRUCK");
-        int expectedResult = trucksToBuy;
+   }
 
-        //Assert
-        assertEquals(expectedResult, actualResult);
-    }
+   @Test
+   public void testAppNotEnoughVansOnSale() throws IOException {
+      //Arrange
+      String filepath = "testCarListNotEnoughVans.csv";
+      List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+      Buyer buyer = new Buyer(30000);
+      RuntimeException expectedException = assertThrows(RuntimeException.class, () -> {
+         buyer.buyListOfCars(buyer, carList);
+      });
 
-    @Test
-    public void testMatchingVansWithNeededNumberToBuy(){
-        //Arrange
-        int vansToBuy = 2;
+      //Act
+      String actualResult = expectedException.getMessage();
+      String expectedResult = "There were not enough VAN cars on sale. Required 2 VAN, but there are only 0 for sale.";
 
-        //Act
-        int actualResult = matchingCarTypeWithNeededNumberToBuy("VAN");
-        int expectedResult = vansToBuy;
+      //Assert
+      assertTrue(actualResult.contains(expectedResult));
 
-        //Assert
-        assertEquals(expectedResult, actualResult);
-    }
+   }
 
-    @Test
-    void testGetNumberOfBoughtCars() throws IOException {
-        List<Car> carList = CsvParser.loadCsvData(Car.getFilePath(), new Car());
-        Buyer.buyingProcess(carList);
+   @Test
+   public void testAppNotEnoughPassOnSale() throws IOException {
+      //Arrange
+      String filepath = "testCarListNotEnoughPass.csv";
+      List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+      Buyer buyer = new Buyer(30000);
+      RuntimeException expectedException = assertThrows(RuntimeException.class, () -> {
+         buyer.buyListOfCars(buyer, carList);
+      });
 
-        //Act
-        int actualResult = getNumberOfBoughtCars();
-        int expectedResult = 7;
+      //Act
+      String actualResult = expectedException.getMessage();
+      String expectedResult = "There were not enough PASS cars on sale. Required 1 PASS, but there are only 0 for sale.";
 
-        //Assert
-        assertEquals(expectedResult, actualResult);
-    }
+      //Assert
+      assertTrue(actualResult.contains(expectedResult));
 
-    @Test
-    void testGetRemainingCash() throws IOException {
-        //Arrange
-        List<Car> carList = CsvParser.loadCsvData(Car.getFilePath(), new Car());
-        Buyer.buyingProcess(carList);
+   }
 
-        //Act
-        int actualResult = getRemainingCash();
-        int expectedResult = 1200;
+   @Test
+   public void testAppNotEnoughCashForTrucks() throws IOException {
+      //Arrange
+      String filepath = "testCarList.csv";
+      List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+      Buyer buyer = new Buyer(14500);
+      RuntimeException expectedException = assertThrows(RuntimeException.class, () -> {
+         buyer.buyListOfCars(buyer, carList);
+      });
 
-        //Assert
-        assertEquals(expectedResult, actualResult);
-    }
+      //Act
+      String actualResult = expectedException.getMessage();
+      String expectedResult = "We ran out of money when buying TRUCK cars. The car’s price is 7700 and we have only 7400 left.";
+
+      //Assert
+      assertTrue(actualResult.contains(expectedResult));
+
+   }
+
+   @Test
+   public void testAppNotEnoughCashForVans() throws IOException {
+      //Arrange
+      String filepath = "testCarList.csv";
+      List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+      Buyer buyer = new Buyer(21500);
+      RuntimeException expectedException = assertThrows(RuntimeException.class, () -> {
+         buyer.buyListOfCars(buyer, carList);
+      });
+
+      //Act
+      String actualResult = expectedException.getMessage();
+      String expectedResult = "We ran out of money when buying VAN cars. The car’s price is 4100 and we have only 3700 left.";
+
+      //Assert
+      assertTrue(actualResult.contains(expectedResult));
+
+   }
+
+   @Test
+   public void testAppNotEnoughCashForPass() throws IOException {
+      //Arrange
+      String filepath = "testCarList.csv";
+      List<Car> carList = CsvParser.loadCsvData(filepath, new Car());
+      Buyer buyer = new Buyer(23500);
+      RuntimeException expectedException = assertThrows(RuntimeException.class, () -> {
+         buyer.buyListOfCars(buyer, carList);
+      });
+
+      //Act
+      String actualResult = expectedException.getMessage();
+      String expectedResult = "We ran out of money when buying PASS cars. The car’s price is 3400 and we have only 1600 left.";
+
+      //Assert
+      assertTrue(actualResult.contains(expectedResult));
+
+   }
 }

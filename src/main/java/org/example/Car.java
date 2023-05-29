@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class Car extends CustomCloneable implements CsvReadableInterface<Car> {
 
@@ -24,13 +25,13 @@ public class Car extends CustomCloneable implements CsvReadableInterface<Car> {
         return filePath;
     }
 
+    public String[] csvHeaders() {
+        return new String[]{"car_id", "car_make", "car_type", "car_price"};
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
-    }
-
-    public String[] csvHeaders() {
-        return new String[]{"car_id", "car_make", "car_type", "car_price"};
     }
 
     public Car fillObjectFromCsvData(Car car, Map<String, String> row) {
@@ -45,32 +46,12 @@ public class Car extends CustomCloneable implements CsvReadableInterface<Car> {
         return carId;
     }
 
-    public void setCarId(int carId) {
-        this.carId = carId;
-    }
-
-    public String getCarMake() {
-        return carMake;
-    }
-
-    public void setCarMake(String carMake) {
-        this.carMake = carMake;
-    }
-
     public String getCarType() {
         return carType;
     }
 
-    public void setCarType(String carType) {
-        this.carType = carType;
-    }
-
     public int getCarPrice() {
         return carPrice;
-    }
-
-    public void setCarPrice(int carPrice) {
-        this.carPrice = carPrice;
     }
 
     @Override
@@ -81,6 +62,21 @@ public class Car extends CustomCloneable implements CsvReadableInterface<Car> {
                 ", carType='" + carType + '\'' +
                 ", carPrice=" + carPrice +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Car car = (Car) obj;
+        return carId == car.carId &&
+                carPrice == car.carPrice &&
+                Objects.equals(carMake, car.carMake) &&
+                Objects.equals(carType, car.carType);
     }
 
 }

@@ -8,9 +8,10 @@ public class App {
 
         List<Car> carList = CsvParser.loadCsvData(Car.getFilePath(), new Car());
         System.out.println(carList);
-        System.out.println("Bought cars: " + Buyer.buyingProcess(carList));
-        System.out.println("Bought cars: " + Buyer.getNumberOfBoughtCars());
-        System.out.println("Remaining cash: " + Buyer.getRemainingCash());
+        Buyer buyer = new Buyer(30000);
+        System.out.println("Bought cars: " + buyer.buyListOfCars(buyer, carList));
+        System.out.println("Remaining cash: " + buyer.getCash());
 
     }
+
 }

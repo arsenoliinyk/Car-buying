@@ -12,7 +12,7 @@ class CsvParserTest {
     @Test
     public void testLoadCsvData() throws IOException {
         //Arrange
-        String filepath = "test.csv";
+        String filepath = "testCsv.csv";
         //Act
         List<Car> actualResult = CsvParser.loadCsvData(filepath, new Car());
         List<Car> expectedResult =  new ArrayList<>();

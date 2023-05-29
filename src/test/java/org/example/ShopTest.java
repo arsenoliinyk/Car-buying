@@ -36,6 +36,37 @@ class ShopTest {
     }
 
     @Test
+    public void testSortCarsWithNullYearValueInAscendingOrder() {
+        //Arrange
+        List<Car> carList = new ArrayList<Car>();
+        Car car1 = new Car(7,"nissan","VAN",6100);
+        Car car2 = new Car(11,"honda","PASS",3400);
+        Car car3 = new Car(12,"honda","VAN",6100, 2020);
+        Car car4 = new Car(13,"honda","TRUCK",4000);
+        Car car5 = new Car(1,"ford","TRUCK",4000, 2010);
+        Car car6 = new Car(9,"mazda","PASS",3400, 2015);
+        carList.add(car1);
+        carList.add(car2);
+        carList.add(car3);
+        carList.add(car4);
+        carList.add(car5);
+        carList.add(car6);
+
+        //Act
+        List<Car> actualResult = Shop.sortCarsInAscendingOrder(carList);
+        List<Car> expectedResult =  new ArrayList<Car>();
+        expectedResult.add(car6);
+        expectedResult.add(car2);
+        expectedResult.add(car5);
+        expectedResult.add(car4);
+        expectedResult.add(car3);
+        expectedResult.add(car1);
+
+        //Assert
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
     public void testGetListOfTruckCars() throws IOException {
         //Arrange
         String filepath = "testCarList.csv";

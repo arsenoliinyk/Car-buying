@@ -7,4 +7,6 @@ public interface CsvReadableInterface<T> {
 
     T fillObjectFromCsvData(T obj, Map<String, String> row);
 
+    String getData(T obj);
+
 }

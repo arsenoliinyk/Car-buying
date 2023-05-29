@@ -10,7 +10,12 @@ public class Shop {
 
     public static List<Car> sortCarsInAscendingOrder(List<Car> carList) {
 
-        carList.sort(Comparator.comparing(Car::getCarPrice));
+        carList.sort(
+                Comparator.comparing(Car::getCarPrice)
+                        .thenComparing(
+                                Car::getCarYear, Comparator.nullsLast(Comparator.reverseOrder()))
+        );
+
         return carList;
 
     }

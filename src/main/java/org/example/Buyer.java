@@ -25,14 +25,17 @@ public class Buyer {
 
     private ArrayList<Integer> buyCheapest(List<Car> carList) {
 
+        ArrayList<Integer> boughtCarsIds = new ArrayList<>();
+
         ArrayList<Integer> boughtTrucksIds = Shop.buyCheapestCarsWithExactType(this, carList,"TRUCK");
         ArrayList<Integer> boughtVansIds = Shop.buyCheapestCarsWithExactType(this, carList,"VAN");
         ArrayList<Integer> boughtPassIds = Shop.buyCheapestCarsWithExactType(this, carList,"PASS");
 
-        return Stream.of(boughtTrucksIds, boughtVansIds, boughtPassIds)
-                .flatMap(Collection::stream)
-                .collect(Collectors
-                        .toCollection(ArrayList::new));
+        boughtCarsIds.addAll(boughtTrucksIds);
+        boughtCarsIds.addAll(boughtVansIds);
+        boughtCarsIds.addAll(boughtPassIds);
+
+        return boughtCarsIds;
 
     }
 
@@ -44,3 +47,4 @@ public class Buyer {
         this.cash = cash;
     }
 }
+

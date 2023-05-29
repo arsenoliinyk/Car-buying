@@ -1,0 +1,17 @@
+car_id,car_make,car_type,car_price,car_year
+7,nissan,VAN,6100,
+11,honda,PASS,3400,2013
+1,ford,TRUCK,4000,
+9,mazda,PASS,5100,
+18,ford,TRUCK,7800,
+17,toyota,TRUCK,7700,
+3,ford,VAN,4100,
+2,nissan,PASS,3500,
+15,toyota,VAN,3000,
+5,nissan,TRUCK,3100,
+20,chevrolet,TRUCK,3100,2003
+21,toyota,TRUCK,4000,2010
+22,honda,VAN,3000,2000
+23,nissan,PASS,3400,
+24,ford,PASS,3500,2015
+25,ford,PASS,3500,2013
